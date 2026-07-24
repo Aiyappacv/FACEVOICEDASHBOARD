@@ -158,10 +158,13 @@ function FusionNetwork() {
 
   const totalWidth = 700;
   const totalHeight = 950; // Increased to fit decision outputs well below decision node
+  const colSpacing = 200;
+  const rowSpacing = 110;
+  const startY = 60;
 
   const getNodeCenter = (node: NetworkNode) => ({
-    x: totalWidth / 2 + (node.col - 1) * 200,
-    y: 60 + node.row * 110 + node.height / 2 + (node.row === 0 ? -35 : node.row === 1 ? 30 : 0),
+    x: totalWidth / 2 + (node.col - 1) * colSpacing,
+    y: startY + node.row * rowSpacing + node.height / 2,
   });
 
   useEffect(() => {
