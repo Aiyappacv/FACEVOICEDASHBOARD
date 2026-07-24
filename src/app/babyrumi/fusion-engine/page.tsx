@@ -302,27 +302,29 @@ function FusionNetwork() {
               <path
                 d={`M ${x} ${y1} L ${x} ${y2}`}
                 stroke="url(#arrowGradient)"
-                strokeWidth={3}
-                strokeDasharray="10 6"
+                strokeWidth={4}
+                strokeDasharray="12 8"
                 strokeLinecap="round"
                 fill="none"
+                opacity={0.9}
               >
                 <animate
                   attributeName="stroke-dashoffset"
-                  from="32"
+                  from="40"
                   to="0"
-                  dur="1.2s"
+                  dur="1s"
                   repeatCount="indefinite"
                 />
               </path>
               <polygon
-                points={`${x - 6},${y2} ${x + 6},${y2} ${x},${y2 + 10}`}
+                points={`${x - 8},${y2} ${x + 8},${y2} ${x},${y2 + 14}`}
                 fill="url(#arrowGradient)"
+                opacity={0.9}
               >
                 <animate
                   attributeName="opacity"
-                  values="0.6;1;0.6"
-                  dur="1.5s"
+                  values="0.5;1;0.5"
+                  dur="1.2s"
                   repeatCount="indefinite"
                 />
               </polygon>
