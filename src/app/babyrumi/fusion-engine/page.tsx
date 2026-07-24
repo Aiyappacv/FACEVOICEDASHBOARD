@@ -173,8 +173,8 @@ function FusionNetwork() {
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02]"
-      style={{ maxHeight: '780px' }}
+      className="relative w-full rounded-2xl border border-white/[0.06] bg-white/[0.02]"
+      style={{ maxHeight: '820px' }}
     >
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -188,7 +188,8 @@ function FusionNetwork() {
       <svg
         viewBox={`0 0 ${totalWidth} ${totalHeight}`}
         className="relative w-full"
-        style={{ maxHeight: '780px' }}
+        style={{ maxHeight: '820px' }}
+        preserveAspectRatio="xMidYMin meet"
       >
         <defs>
           <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -568,7 +569,7 @@ export default function FusionEnginePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
         >
-          <GlassCard className="p-4 md:p-6 min-h-[800px]">
+          <GlassCard className="p-4 md:p-6 min-h-[840px]">
             <div className="mb-4 flex items-center gap-2">
               <Network className="h-4 w-4 text-purple-400" />
               <span className="text-xs font-semibold uppercase tracking-widest text-white/50">
