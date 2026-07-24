@@ -246,6 +246,7 @@ function FusionNetwork() {
           const offsetX = edgeOffsets[i];
           const startX = center.x + offsetX;
           const endX = target.x + offsetX;
+          const startY = center.y + node.height / 2 + 8; // 8px gap from circle edge
           
           return (
             <motion.g
@@ -255,7 +256,7 @@ function FusionNetwork() {
               transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
             >
               <path
-                d={`M ${startX} ${center.y + node.height / 2} Q ${startX} ${(center.y + node.height / 2 + target.y - targetNode.height / 2) / 2} ${endX} ${target.y - targetNode.height / 2 - 14}`}
+                d={`M ${startX} ${startY} Q ${startX} ${(startY + target.y - targetNode.height / 2) / 2} ${endX} ${target.y - targetNode.height / 2 - 14}`}
                 stroke="#a855f7"
                 strokeWidth={5}
                 strokeDasharray="14 8"
