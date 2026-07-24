@@ -167,7 +167,7 @@ export default function DashboardPage() {
               </div>
               <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">
                 <span className="bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
-                  Command Center
+                  Executive Overview
                 </span>
               </h1>
             </div>

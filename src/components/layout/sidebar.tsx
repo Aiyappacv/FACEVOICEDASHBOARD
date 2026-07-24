@@ -14,13 +14,13 @@ import {
 } from 'lucide-react';
 
 const navGroups = [
-  {
-    title: 'Command Center',
-    items: [
-      { label: 'Dashboard', icon: LayoutDashboard, href: '/babyrumi' },
-      { label: 'Command Center', icon: Zap, href: '/babyrumi/command-center' },
-    ],
-  },
+{
+      title: 'Command Center',
+      items: [
+        { label: 'Overview', icon: LayoutDashboard, href: '/babyrumi' },
+        { label: 'Command Center', icon: Zap, href: '/babyrumi/command-center' },
+      ],
+    },
   {
     title: 'Biometric AI',
     items: [
