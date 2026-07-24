@@ -157,7 +157,7 @@ function FusionNetwork() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
   const totalWidth = 700;
-  const totalHeight = 720;
+  const totalHeight = 850; // Increased to fit decision outputs below decision node
 
   const getNodeCenter = (node: NetworkNode) => ({
     x: totalWidth / 2 + (node.col - 1) * 200,
@@ -174,7 +174,7 @@ function FusionNetwork() {
   return (
     <div
       className="relative w-full rounded-2xl border border-white/[0.06] bg-white/[0.02]"
-      style={{ maxHeight: '820px' }}
+      style={{ maxHeight: '880px' }}
     >
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -188,7 +188,7 @@ function FusionNetwork() {
       <svg
         viewBox={`0 0 ${totalWidth} ${totalHeight}`}
         className="relative w-full"
-        style={{ maxHeight: '820px' }}
+        style={{ maxHeight: '880px' }}
         preserveAspectRatio="xMidYMin meet"
       >
         <defs>
@@ -339,7 +339,7 @@ function FusionNetwork() {
             { label: 'DENY', color: '#ef4444', x: dc.x, icon: '✗' },
             { label: 'STEP-UP', color: '#eab308', x: dc.x + 140, icon: '!' },
           ];
-          const outputY = totalHeight - 40;
+          const outputY = totalHeight - 80;
           return outcomes.map((o, i) => (
             <motion.g
               key={`outcome-${i}`}
@@ -569,7 +569,7 @@ export default function FusionEnginePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
         >
-          <GlassCard className="p-4 md:p-6 min-h-[840px]">
+          <GlassCard className="p-4 md:p-6 min-h-[900px]">
             <div className="mb-4 flex items-center gap-2">
               <Network className="h-4 w-4 text-purple-400" />
               <span className="text-xs font-semibold uppercase tracking-widest text-white/50">
