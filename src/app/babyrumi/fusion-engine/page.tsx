@@ -234,62 +234,6 @@ function FusionNetwork() {
           </clipPath>
         </defs>
 
-        {/* Row 0 → Row 1 arrows (three converging) - connect to box edges */}
-        {['face', 'voice', 'fingerprint'].map((id, i) => {
-          const node = networkNodes.find((n) => n.id === id)!;
-          const center = getNodeCenter(node);
-          const targetNode = networkNodes.find((n) => n.id === 'embedding')!;
-          const target = getNodeCenter(targetNode);
-          
-          // Connect to box edges: face→left, voice→center, fingerprint→right
-          const edgeOffsets = [-targetNode.width / 2, 0, targetNode.width / 2];
-          const offsetX = edgeOffsets[i];
-          const startX = center.x + offsetX;
-          const endX = target.x + offsetX;
-          const startY = center.y + node.height / 2 + 8; // 8px gap from circle edge
-          
-          return (
-            <motion.g
-              key={`arrow-${id}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
-            >
-              <path
-                d={`M ${startX} ${startY} Q ${startX} ${(startY + target.y - targetNode.height / 2) / 2} ${endX} ${target.y - targetNode.height / 2 - 14}`}
-                stroke="#a855f7"
-                strokeWidth={5}
-                strokeDasharray="14 8"
-                strokeLinecap="round"
-                fill="none"
-                opacity="1"
-                filter="drop-shadow(0 0 6px #a855f7)"
-              >
-                <animate
-                  attributeName="stroke-dashoffset"
-                  from="44"
-                  to="0"
-                  dur="0.8s"
-                  repeatCount="indefinite"
-                />
-              </path>
-              <polygon
-                points={`${endX - 10},${target.y - targetNode.height / 2 - 14} ${endX + 10},${target.y - targetNode.height / 2 - 14} ${endX},${target.y - targetNode.height / 2}`}
-                fill="#a855f7"
-                opacity="1"
-                filter="drop-shadow(0 0 8px #a855f7)"
-              >
-                <animate
-                  attributeName="opacity"
-                  values="0.8;1;0.8"
-                  dur="0.8s"
-                  repeatCount="indefinite"
-                />
-              </polygon>
-            </motion.g>
-          );
-        })}
-
         {/* Vertical arrows between pipeline stages - centered for alignment */}
         {([
           ['embedding', 'feature-fusion', 0],
