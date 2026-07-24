@@ -124,16 +124,6 @@ export default function WorldMap({ events, className }: WorldMapProps) {
       <div className="absolute inset-0 bg-gradient-to-br from-[#1A1238]/40 via-transparent to-[#0D0820]" />
 
       <div className="relative z-10 p-6">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold tracking-tight text-white/90">
-            Global Authentication Network
-          </h2>
-          <div className="flex items-center gap-2 text-xs text-white/40">
-            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-            Live
-          </div>
-        </div>
-
         <div className="relative w-full" style={{ aspectRatio: '2 / 1' }}>
           <svg
             viewBox="0 0 1000 500"
