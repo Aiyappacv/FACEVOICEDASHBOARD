@@ -249,27 +249,29 @@ function FusionNetwork() {
               <path
                 d={`M ${startX} ${center.y + node.height / 2} Q ${startX} ${(center.y + node.height / 2 + target.y - targetNode.height / 2) / 2} ${endX} ${target.y - targetNode.height / 2}`}
                 stroke="url(#arrowGradient)"
-                strokeWidth={3}
+                strokeWidth={4}
                 strokeDasharray="10 6"
                 strokeLinecap="round"
                 fill="none"
+                opacity="0.9"
               >
                 <animate
                   attributeName="stroke-dashoffset"
                   from="32"
                   to="0"
-                  dur="1.2s"
+                  dur="1s"
                   repeatCount="indefinite"
                 />
               </path>
               <polygon
-                points={`${endX - 6},${target.y - targetNode.height / 2} ${endX + 6},${target.y - targetNode.height / 2} ${endX},${target.y - targetNode.height / 2 + 10}`}
+                points={`${endX - 8},${target.y - targetNode.height / 2} ${endX + 8},${target.y - targetNode.height / 2} ${endX},${target.y - targetNode.height / 2 + 12}`}
                 fill="url(#arrowGradient)"
+                opacity="0.9"
               >
                 <animate
                   attributeName="opacity"
-                  values="0.6;1;0.6"
-                  dur="1.5s"
+                  values="0.7;1;0.7"
+                  dur="1s"
                   repeatCount="indefinite"
                 />
               </polygon>
