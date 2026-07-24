@@ -241,8 +241,8 @@ function FusionNetwork() {
           const targetNode = networkNodes.find((n) => n.id === 'embedding')!;
           const target = getNodeCenter(targetNode);
           
-          // Add horizontal offset to prevent overlap
-          const offsetX = (i - 1) * 60; // -60, 0, +60
+          // Horizontal offsets: face=-60, voice=0, fingerprint=+60
+          const offsetX = (i - 1) * 60;
           const startX = center.x + offsetX;
           const endX = target.x + offsetX;
           
@@ -288,13 +288,13 @@ function FusionNetwork() {
           );
         })}
 
-        {/* Vertical arrows between pipeline stages - staggered to avoid overlap */}
+        {/* Vertical arrows between pipeline stages - centered for alignment */}
         {([
           ['embedding', 'feature-fusion', 0],
-          ['feature-fusion', 'score-fusion', -8],
-          ['score-fusion', 'meta-classifier', 8],
-          ['meta-classifier', 'risk-engine', -8],
-          ['risk-engine', 'decision', 8],
+          ['feature-fusion', 'score-fusion', 0],
+          ['score-fusion', 'meta-classifier', 0],
+          ['meta-classifier', 'risk-engine', 0],
+          ['risk-engine', 'decision', 0],
         ] as const).map(([fromId, toId, xOffset], i) => {
           const from = networkNodes.find((n) => n.id === fromId)!;
           const to = networkNodes.find((n) => n.id === toId)!;
