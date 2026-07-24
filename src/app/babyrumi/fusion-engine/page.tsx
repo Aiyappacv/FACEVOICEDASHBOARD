@@ -234,15 +234,16 @@ function FusionNetwork() {
           </clipPath>
         </defs>
 
-        {/* Row 0 → Row 1 arrows (three converging) - clearly separated */}
+        {/* Row 0 → Row 1 arrows (three converging) - connect to box edges */}
         {['face', 'voice', 'fingerprint'].map((id, i) => {
           const node = networkNodes.find((n) => n.id === id)!;
           const center = getNodeCenter(node);
           const targetNode = networkNodes.find((n) => n.id === 'embedding')!;
           const target = getNodeCenter(targetNode);
           
-          // Horizontal offsets: face=-60, voice=0, fingerprint=+60
-          const offsetX = (i - 1) * 60;
+          // Connect to box edges: face→left, voice→center, fingerprint→right
+          const edgeOffsets = [-targetNode.width / 2, 0, targetNode.width / 2];
+          const offsetX = edgeOffsets[i];
           const startX = center.x + offsetX;
           const endX = target.x + offsetX;
           
