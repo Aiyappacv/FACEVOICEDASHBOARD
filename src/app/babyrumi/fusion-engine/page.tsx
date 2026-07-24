@@ -254,7 +254,7 @@ function FusionNetwork() {
               transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
             >
               <path
-                d={`M ${startX} ${center.y + node.height / 2} Q ${startX} ${(center.y + node.height / 2 + target.y - targetNode.height / 2) / 2} ${endX} ${target.y - targetNode.height / 2}`}
+                d={`M ${startX} ${center.y + node.height / 2} Q ${startX} ${(center.y + node.height / 2 + target.y - targetNode.height / 2) / 2} ${endX} ${target.y - targetNode.height / 2 - 14}`}
                 stroke="#a855f7"
                 strokeWidth={5}
                 strokeDasharray="14 8"
@@ -363,7 +363,7 @@ function FusionNetwork() {
               transition={{ delay: 2.0 + i * 0.15, duration: 0.5 }}
             >
               <path
-                d={`M ${dc.x} ${dc.y + decisionNode.height / 2} Q ${dc.x} ${(dc.y + decisionNode.height / 2 + outputY) / 2} ${o.x} ${outputY}`}
+                d={`M ${dc.x} ${dc.y + decisionNode.height / 2} Q ${dc.x} ${(dc.y + decisionNode.height / 2 + outputY + 8) / 2} ${o.x} ${outputY + 8}`}
                 stroke={o.color}
                 strokeWidth={5}
                 strokeDasharray="14 8"
@@ -380,6 +380,19 @@ function FusionNetwork() {
                   repeatCount="indefinite"
                 />
               </path>
+              <polygon
+                points={`${o.x - 10},${outputY + 8 - 14} ${o.x + 10},${outputY + 8 - 14} ${o.x},${outputY + 8}`}
+                fill={o.color}
+                opacity="1"
+                filter={`drop-shadow(0 0 8px ${o.color})`}
+              >
+                <animate
+                  attributeName="opacity"
+                  values="0.8;1;0.8"
+                  dur="0.8s"
+                  repeatCount="indefinite"
+                />
+              </polygon>
               <circle cx={o.x} cy={outputY + 8} r={18} fill={o.color} opacity="0.25" />
               <text
                 x={o.x}
