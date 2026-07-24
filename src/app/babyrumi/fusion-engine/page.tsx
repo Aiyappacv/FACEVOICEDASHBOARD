@@ -174,7 +174,7 @@ function FusionNetwork() {
   return (
     <div
       className="relative w-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02]"
-      style={{ maxHeight: '680px' }}
+      style={{ maxHeight: '780px' }}
     >
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -188,7 +188,7 @@ function FusionNetwork() {
       <svg
         viewBox={`0 0 ${totalWidth} ${totalHeight}`}
         className="relative w-full"
-        style={{ maxHeight: '680px' }}
+        style={{ maxHeight: '780px' }}
       >
         <defs>
           <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
