@@ -248,30 +248,32 @@ function FusionNetwork() {
             >
               <path
                 d={`M ${startX} ${center.y + node.height / 2} Q ${startX} ${(center.y + node.height / 2 + target.y - targetNode.height / 2) / 2} ${endX} ${target.y - targetNode.height / 2}`}
-                stroke="url(#arrowGradient)"
-                strokeWidth={4}
-                strokeDasharray="10 6"
+                stroke="#a855f7"
+                strokeWidth={5}
+                strokeDasharray="14 8"
                 strokeLinecap="round"
                 fill="none"
-                opacity="0.9"
+                opacity="1"
+                filter="drop-shadow(0 0 6px #a855f7)"
               >
                 <animate
                   attributeName="stroke-dashoffset"
-                  from="32"
+                  from="44"
                   to="0"
-                  dur="1s"
+                  dur="0.8s"
                   repeatCount="indefinite"
                 />
               </path>
               <polygon
-                points={`${endX - 8},${target.y - targetNode.height / 2} ${endX + 8},${target.y - targetNode.height / 2} ${endX},${target.y - targetNode.height / 2 + 12}`}
-                fill="url(#arrowGradient)"
-                opacity="0.9"
+                points={`${endX - 10},${target.y - targetNode.height / 2} ${endX + 10},${target.y - targetNode.height / 2} ${endX},${target.y - targetNode.height / 2 + 14}`}
+                fill="#a855f7"
+                opacity="1"
+                filter="drop-shadow(0 0 8px #a855f7)"
               >
                 <animate
                   attributeName="opacity"
-                  values="0.7;1;0.7"
-                  dur="1s"
+                  values="0.8;1;0.8"
+                  dur="0.8s"
                   repeatCount="indefinite"
                 />
               </polygon>
@@ -303,30 +305,32 @@ function FusionNetwork() {
             >
               <path
                 d={`M ${x} ${y1} L ${x} ${y2}`}
-                stroke="url(#arrowGradient)"
-                strokeWidth={4}
-                strokeDasharray="12 8"
+                stroke="#a855f7"
+                strokeWidth={5}
+                strokeDasharray="14 8"
                 strokeLinecap="round"
                 fill="none"
-                opacity={0.9}
+                opacity="1"
+                filter="drop-shadow(0 0 6px #a855f7)"
               >
                 <animate
                   attributeName="stroke-dashoffset"
-                  from="40"
+                  from="44"
                   to="0"
-                  dur="1s"
+                  dur="0.8s"
                   repeatCount="indefinite"
                 />
               </path>
               <polygon
-                points={`${x - 8},${y2} ${x + 8},${y2} ${x},${y2 + 14}`}
-                fill="url(#arrowGradient)"
-                opacity={0.9}
+                points={`${x - 10},${y2} ${x + 10},${y2} ${x},${y2 + 14}`}
+                fill="#a855f7"
+                opacity="1"
+                filter="drop-shadow(0 0 8px #a855f7)"
               >
                 <animate
                   attributeName="opacity"
-                  values="0.5;1;0.5"
-                  dur="1.2s"
+                  values="0.8;1;0.8"
+                  dur="0.8s"
                   repeatCount="indefinite"
                 />
               </polygon>
@@ -354,21 +358,22 @@ function FusionNetwork() {
               <path
                 d={`M ${dc.x} ${dc.y + decisionNode.height / 2} Q ${dc.x} ${(dc.y + decisionNode.height / 2 + outputY) / 2} ${o.x} ${outputY}`}
                 stroke={o.color}
-                strokeWidth={3}
-                strokeDasharray="8 5"
+                strokeWidth={5}
+                strokeDasharray="14 8"
                 strokeLinecap="round"
-                opacity={0.7}
+                opacity="1"
                 fill="none"
+                filter={`drop-shadow(0 0 6px ${o.color})`}
               >
                 <animate
                   attributeName="stroke-dashoffset"
-                  from="26"
+                  from="44"
                   to="0"
-                  dur="1s"
+                  dur="0.8s"
                   repeatCount="indefinite"
                 />
               </path>
-              <circle cx={o.x} cy={outputY + 8} r={16} fill={o.color} opacity={0.2} />
+              <circle cx={o.x} cy={outputY + 8} r={18} fill={o.color} opacity="0.25" />
               <text
                 x={o.x}
                 y={outputY + 12}
