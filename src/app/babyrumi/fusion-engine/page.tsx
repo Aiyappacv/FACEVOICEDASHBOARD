@@ -157,15 +157,19 @@ function FusionNetwork() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
   const totalWidth = 700;
-  const totalHeight = 950; // Increased to fit decision outputs well below decision node
+  const totalHeight = 950;
   const colSpacing = 200;
-  const rowSpacing = 110;
+  const rowSpacing = 130;
   const startY = 60;
 
-  const getNodeCenter = (node: NetworkNode) => ({
-    x: totalWidth / 2 + (node.col - 1) * colSpacing,
-    y: startY + node.row * rowSpacing + node.height / 2,
-  });
+  const getNodeCenter = (node: NetworkNode) => {
+    let yOffset = 0;
+    if (node.row === 1) yOffset = 25; // Extra gap below row 0 circles
+    return {
+      x: totalWidth / 2 + (node.col - 1) * colSpacing,
+      y: startY + node.row * rowSpacing + node.height / 2 + yOffset,
+    };
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
