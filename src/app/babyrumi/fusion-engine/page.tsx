@@ -160,7 +160,7 @@ function FusionNetwork() {
   const totalHeight = 1100;
   const colSpacing = 200;
   const rowSpacing = 130;
-  const startY = 60;
+  const startY = 100;
 
   const getNodeCenter = (node: NetworkNode) => {
     let yOffset = 0;
