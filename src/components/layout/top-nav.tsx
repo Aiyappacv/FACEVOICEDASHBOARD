@@ -10,6 +10,28 @@ import {
   Globe, Monitor, Wifi, WifiOff
 } from 'lucide-react';
 
+function ClientOnlyTime({ time }: { time: Date | null }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return <span className="font-mono tabular-nums">--:--:--</span>;
+  return (
+    <span className="font-mono tabular-nums">
+      {time ? format(time, 'HH:mm:ss') : '--:--:--'}
+    </span>
+  );
+}
+
+function ClientOnlyDate({ time }: { time: Date | null }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return <span className="text-[10px] text-white/25" />;
+  return (
+    <span className="text-[10px] text-white/25">
+      {time ? format(time, 'MMM dd') : ''}
+    </span>
+  );
+}
+
 export function TopNav() {
   const collapsed = useAppStore((s) => s.sidebarCollapsed);
   const time = useCurrentTime();
@@ -108,12 +130,8 @@ export function TopNav() {
 
         {/* Time display */}
         <div className="hidden items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-white/40 md:flex">
-          <span className="font-mono tabular-nums">
-            {time ? format(time, 'HH:mm:ss') : '--:--:--'}
-          </span>
-          <span className="text-[10px] text-white/25">
-            {time ? format(time, 'MMM dd') : ''}
-          </span>
+          <ClientOnlyTime time={time} />
+          <ClientOnlyDate time={time} />
         </div>
 
         {/* Region */}
