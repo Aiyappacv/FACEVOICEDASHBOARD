@@ -265,7 +265,7 @@ function FusionNetwork() {
                 />
               </path>
               <polygon
-                points={`${endX - 10},${target.y - targetNode.height / 2} ${endX + 10},${target.y - targetNode.height / 2} ${endX},${target.y - targetNode.height / 2 + 14}`}
+                points={`${endX - 10},${target.y - targetNode.height / 2 - 14} ${endX + 10},${target.y - targetNode.height / 2 - 14} ${endX},${target.y - targetNode.height / 2}`}
                 fill="#a855f7"
                 opacity="1"
                 filter="drop-shadow(0 0 8px #a855f7)"
@@ -295,7 +295,7 @@ function FusionNetwork() {
           const tc = getNodeCenter(to);
           const x = (fc.x + tc.x) / 2 + xOffset;
           const y1 = fc.y + from.height / 2 + 4;
-          const y2 = tc.y - to.height / 2 - 10;
+          const y2 = tc.y - to.height / 2;
           return (
             <motion.g
               key={`varrow-${i}`}
@@ -322,7 +322,7 @@ function FusionNetwork() {
                 />
               </path>
               <polygon
-                points={`${x - 10},${y2} ${x + 10},${y2} ${x},${y2 + 14}`}
+                points={`${x - 10},${y2 - 14} ${x + 10},${y2 - 14} ${x},${y2}`}
                 fill="#a855f7"
                 opacity="1"
                 filter="drop-shadow(0 0 8px #a855f7)"
