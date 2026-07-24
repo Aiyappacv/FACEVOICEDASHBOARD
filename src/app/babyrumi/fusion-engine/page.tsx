@@ -148,61 +148,15 @@ const networkNodes: NetworkNode[] = [
     height: 72,
     glowColor: 'rgba(34, 197, 94, 0.4)',
     bgGradient: 'from-emerald-500/20 to-green-600/10',
-    final: true,
+final: true,
   },
 ];
-
-const AnimatedArrow = ({
-  x,
-  y,
-  delay = 0,
-}: {
-  x: number;
-  y: number;
-  delay?: number;
-}) => (
-  <motion.g
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: delay + 0.3, duration: 0.5 }}
-  >
-    <line
-      x1={x}
-      y1={y}
-      x2={x}
-      y2={y + 36}
-      stroke="url(#arrowGradient)"
-      strokeWidth={2.5}
-      strokeDasharray="8 6"
-      strokeLinecap="round"
-    >
-      <animate
-        attributeName="stroke-dashoffset"
-        from="28"
-        to="0"
-        dur="1.2s"
-        repeatCount="indefinite"
-      />
-    </line>
-    <polygon
-      points={`${x - 5},${y + 30} ${x + 5},${y + 30} ${x},${y + 40}`}
-      fill="url(#arrowGradient)"
-    >
-      <animate
-        attributeName="opacity"
-        values="0.6;1;0.6"
-        dur="1.5s"
-        repeatCount="indefinite"
-      />
-    </polygon>
-  </motion.g>
-);
 
 function FusionNetwork() {
   const [activeStage, setActiveStage] = useState(0);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
-const totalWidth = 700;
+  const totalWidth = 700;
   const totalHeight = 720;
 
   const getNodeCenter = (node: NetworkNode) => ({
@@ -272,108 +226,150 @@ const totalWidth = 700;
           </clipPath>
         </defs>
 
-        {/* Row 0 → Row 1 arrows (three converging) */}
+        {/* Row 0 → Row 1 arrows (three converging) - clearly separated */}
         {['face', 'voice', 'fingerprint'].map((id, i) => {
           const node = networkNodes.find((n) => n.id === id)!;
           const center = getNodeCenter(node);
           const targetNode = networkNodes.find((n) => n.id === 'embedding')!;
           const target = getNodeCenter(targetNode);
+          
+          // Add horizontal offset to prevent overlap
+          const offsetX = (i - 1) * 60; // -60, 0, +60
+          const startX = center.x + offsetX;
+          const endX = target.x + offsetX;
+          
           return (
             <motion.g
               key={`arrow-${id}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 + i * 0.15, duration: 0.5 }}
+              transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
             >
-              <line
-                x1={center.x}
-                y1={center.y + node.height / 2}
-                x2={target.x}
-                y2={target.y - targetNode.height / 2}
+              <path
+                d={`M ${startX} ${center.y + node.height / 2} Q ${startX} ${(center.y + node.height / 2 + target.y - targetNode.height / 2) / 2} ${endX} ${target.y - targetNode.height / 2}`}
                 stroke="url(#arrowGradient)"
-                strokeWidth={2}
-                strokeDasharray="8 6"
+                strokeWidth={3}
+                strokeDasharray="10 6"
                 strokeLinecap="round"
+                fill="none"
               >
                 <animate
                   attributeName="stroke-dashoffset"
-                  from="28"
+                  from="32"
                   to="0"
-                  dur="1.4s"
+                  dur="1.2s"
                   repeatCount="indefinite"
                 />
-              </line>
+              </path>
+              <polygon
+                points={`${endX - 6},${target.y - targetNode.height / 2} ${endX + 6},${target.y - targetNode.height / 2} ${endX},${target.y - targetNode.height / 2 + 10}`}
+                fill="url(#arrowGradient)"
+              >
+                <animate
+                  attributeName="opacity"
+                  values="0.6;1;0.6"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                />
+              </polygon>
             </motion.g>
           );
         })}
 
-        {/* Vertical arrows between pipeline stages */}
-        {[
-          ['embedding', 'feature-fusion'],
-          ['feature-fusion', 'score-fusion'],
-          ['score-fusion', 'meta-classifier'],
-          ['meta-classifier', 'risk-engine'],
-          ['risk-engine', 'decision'],
-        ].map(([fromId, toId], i) => {
+        {/* Vertical arrows between pipeline stages - staggered to avoid overlap */}
+        {([
+          ['embedding', 'feature-fusion', 0],
+          ['feature-fusion', 'score-fusion', -8],
+          ['score-fusion', 'meta-classifier', 8],
+          ['meta-classifier', 'risk-engine', -8],
+          ['risk-engine', 'decision', 8],
+        ] as const).map(([fromId, toId, xOffset], i) => {
           const from = networkNodes.find((n) => n.id === fromId)!;
           const to = networkNodes.find((n) => n.id === toId)!;
           const fc = getNodeCenter(from);
           const tc = getNodeCenter(to);
-          const x = (fc.x + tc.x) / 2;
+          const x = (fc.x + tc.x) / 2 + xOffset;
           const y1 = fc.y + from.height / 2 + 4;
           const y2 = tc.y - to.height / 2 - 10;
           return (
-            <AnimatedArrow
+            <motion.g
               key={`varrow-${i}`}
-              x={x}
-              y={y1}
-              delay={i * 0.12}
-            />
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 + i * 0.1, duration: 0.5 }}
+            >
+              <path
+                d={`M ${x} ${y1} L ${x} ${y2}`}
+                stroke="url(#arrowGradient)"
+                strokeWidth={3}
+                strokeDasharray="10 6"
+                strokeLinecap="round"
+                fill="none"
+              >
+                <animate
+                  attributeName="stroke-dashoffset"
+                  from="32"
+                  to="0"
+                  dur="1.2s"
+                  repeatCount="indefinite"
+                />
+              </path>
+              <polygon
+                points={`${x - 6},${y2} ${x + 6},${y2} ${x},${y2 + 10}`}
+                fill="url(#arrowGradient)"
+              >
+                <animate
+                  attributeName="opacity"
+                  values="0.6;1;0.6"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                />
+              </polygon>
+            </motion.g>
           );
         })}
 
-        {/* Decision output arrows */}
+        {/* Decision output arrows - clearly visible with curved paths */}
         {(() => {
           const decisionNode = networkNodes.find((n) => n.id === 'decision')!;
           const dc = getNodeCenter(decisionNode);
           const outcomes = [
-            { label: 'ALLOW', color: '#22c55e', x: dc.x - 120, icon: '✓' },
+            { label: 'ALLOW', color: '#22c55e', x: dc.x - 140, icon: '✓' },
             { label: 'DENY', color: '#ef4444', x: dc.x, icon: '✗' },
-            { label: 'STEP-UP', color: '#eab308', x: dc.x + 120, icon: '!' },
+            { label: 'STEP-UP', color: '#eab308', x: dc.x + 140, icon: '!' },
           ];
+          const outputY = totalHeight - 40;
           return outcomes.map((o, i) => (
             <motion.g
               key={`outcome-${i}`}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.8 + i * 0.15, duration: 0.5 }}
+              transition={{ delay: 2.0 + i * 0.15, duration: 0.5 }}
             >
-              <line
-                x1={dc.x}
-                y1={dc.y + decisionNode.height / 2}
-                x2={o.x}
-                y2={totalHeight - 30}
+              <path
+                d={`M ${dc.x} ${dc.y + decisionNode.height / 2} Q ${dc.x} ${(dc.y + decisionNode.height / 2 + outputY) / 2} ${o.x} ${outputY}`}
                 stroke={o.color}
-                strokeWidth={2}
-                strokeDasharray="6 4"
+                strokeWidth={3}
+                strokeDasharray="8 5"
                 strokeLinecap="round"
-                opacity={0.5}
+                opacity={0.7}
+                fill="none"
               >
                 <animate
                   attributeName="stroke-dashoffset"
-                  from="20"
+                  from="26"
                   to="0"
                   dur="1s"
                   repeatCount="indefinite"
                 />
-              </line>
-              <circle cx={o.x} cy={totalHeight - 18} r={14} fill={o.color} opacity={0.15} />
+              </path>
+              <circle cx={o.x} cy={outputY + 8} r={16} fill={o.color} opacity={0.2} />
               <text
                 x={o.x}
-                y={totalHeight - 13}
+                y={outputY + 12}
                 textAnchor="middle"
                 fill={o.color}
-                fontSize="9"
+                fontSize="10"
                 fontWeight="700"
                 fontFamily="monospace"
               >
