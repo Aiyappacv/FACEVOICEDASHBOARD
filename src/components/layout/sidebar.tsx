@@ -95,8 +95,8 @@ const navGroups = [
   },
 ];
 
-const SIDEBAR_WIDTH = 280;
-const SIDEBAR_COLLAPSED_WIDTH = 72;
+const SIDEBAR_WIDTH = 250;
+const SIDEBAR_COLLAPSED_WIDTH = 64;
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -126,14 +126,8 @@ export function Sidebar() {
       <div className="pointer-events-none absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#C44DFF]/[0.07] to-transparent" />
 
       {/* Logo area */}
-      <div className="relative flex h-16 shrink-0 items-center border-b border-white/[.05]">
-        <div className="flex w-full items-center gap-3 px-5">
-          {/* Glowing orb icon */}
-          <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#C44DFF] to-[#7B2FBE] shadow-lg shadow-[#C44DFF]/20">
-            <div className="absolute inset-0 animate-pulse rounded-xl bg-[#C44DFF]/20 blur-md" />
-            <ScanFace className="relative h-5 w-5 text-white" />
-          </div>
-
+      <div className="relative flex h-24 shrink-0 items-center border-b border-white/[.05]">
+        <div className="flex w-full items-center gap-3 -ml-4">
           <AnimatePresence>
             {!collapsed && (
               <motion.div
@@ -141,13 +135,33 @@ export function Sidebar() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -8 }}
                 transition={{ duration: 0.2 }}
-                className="flex flex-col overflow-hidden"
+                className="flex items-center gap-1"
               >
-                <span className="whitespace-nowrap bg-gradient-to-r from-white via-white to-[#C44DFF] bg-clip-text text-sm font-bold text-transparent">
-                  SPECTRAFACEVOICE
-                </span>
-                <span className="whitespace-nowrap text-[10px] font-medium tracking-[0.2em] text-white/30">
-                  ENTERPRISE
+                <img
+                  src="/logomain.png"
+                  alt="SpectraFaceVoice"
+                  className="h-20 w-auto"
+                  style={{ filter: 'drop-shadow(0 0 14px rgba(196,77,255,0.6))' }}
+                />
+                <div className="flex flex-col -ml-2">
+                  <span className="text-xl font-bold tracking-tight text-white bg-gradient-to-r from-purple-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+                    SpectraFaceVoice
+                  </span>
+                  <span className="text-[11px] font-medium text-white/40 tracking-widest uppercase mt-0.5">
+                    Recognize.Verify.Comply.
+                  </span>
+                </div>
+              </motion.div>
+            )}
+            {collapsed && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <span className="text-lg font-bold text-white bg-gradient-to-r from-purple-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+                  SFV
                 </span>
               </motion.div>
             )}

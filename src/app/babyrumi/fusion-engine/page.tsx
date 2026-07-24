@@ -157,10 +157,10 @@ function FusionNetwork() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
   const totalWidth = 700;
-  const totalHeight = 1100;
+  const totalHeight = 1200;
   const colSpacing = 200;
   const rowSpacing = 130;
-  const startY = 100;
+  const startY = 80;
 
   const getNodeCenter = (node: NetworkNode) => {
     let yOffset = 0;
@@ -181,7 +181,7 @@ function FusionNetwork() {
   return (
     <div
       className="relative w-full rounded-2xl border border-white/[0.06] bg-white/[0.02]"
-      style={{ maxHeight: '1050px' }}
+      style={{ maxHeight: '1150px' }}
     >
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -195,7 +195,7 @@ function FusionNetwork() {
       <svg
         viewBox={`0 0 ${totalWidth} ${totalHeight}`}
         className="relative w-full"
-        style={{ maxHeight: '1050px' }}
+        style={{ maxHeight: '1150px' }}
         preserveAspectRatio="xMidYMin meet"
       >
         <defs>
@@ -234,6 +234,65 @@ function FusionNetwork() {
           </clipPath>
         </defs>
 
+        {/* Arrows from three input circles to embedding layer */}
+        {(() => {
+          const embeddingNode = networkNodes.find((n) => n.id === 'embedding')!;
+          const ec = getNodeCenter(embeddingNode);
+          const inputNodes = ['face', 'voice', 'fingerprint'].map((id) =>
+            networkNodes.find((n) => n.id === id)!
+          );
+          return inputNodes.map((node, i) => {
+            const nc = getNodeCenter(node);
+            const x1 = nc.x;
+            const y1 = nc.y + node.height / 2;
+            const x2 = ec.x;
+            const y2 = ec.y - embeddingNode.height / 2 - 2;
+            const ctrlX = x1 + (x2 - x1) * 0.5;
+            const ctrlY = y1 + (y2 - y1) * 0.5;
+            const colors = ['#a855f7', '#ec4899', '#3b82f6'];
+            return (
+              <motion.g
+                key={`input-arrow-${i}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
+              >
+                <path
+                  d={`M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`}
+                  stroke={colors[i]}
+                  strokeWidth={4}
+                  strokeDasharray="10 6"
+                  strokeLinecap="round"
+                  fill="none"
+                  opacity="0.9"
+                  filter={`drop-shadow(0 0 6px ${colors[i]})`}
+                >
+                  <animate
+                    attributeName="stroke-dashoffset"
+                    from="32"
+                    to="0"
+                    dur="0.8s"
+                    repeatCount="indefinite"
+                  />
+                </path>
+                <polygon
+                  points={`${x2 - 8},${y2 - 12} ${x2 + 8},${y2 - 12} ${x2},${y2}`}
+                  fill={colors[i]}
+                  opacity="0.9"
+                  filter={`drop-shadow(0 0 6px ${colors[i]})`}
+                >
+                  <animate
+                    attributeName="opacity"
+                    values="0.7;1;0.7"
+                    dur="0.8s"
+                    repeatCount="indefinite"
+                  />
+                </polygon>
+              </motion.g>
+            );
+          });
+        })()}
+
         {/* Vertical arrows between pipeline stages - centered for alignment */}
         {([
           ['embedding', 'feature-fusion', 0],
@@ -248,7 +307,7 @@ function FusionNetwork() {
           const tc = getNodeCenter(to);
           const x = (fc.x + tc.x) / 2 + xOffset;
           const y1 = fc.y + from.height / 2 + 4;
-          const y2 = tc.y - to.height / 2;
+          const y2 = tc.y - to.height / 2 - 2;
           return (
             <motion.g
               key={`varrow-${i}`}
@@ -291,68 +350,185 @@ function FusionNetwork() {
           );
         })}
 
-        {/* Decision output arrows - clearly visible with curved paths */}
+        {/* Decision output arrows - clean symmetrical branching */}
         {(() => {
           const decisionNode = networkNodes.find((n) => n.id === 'decision')!;
           const dc = getNodeCenter(decisionNode);
+          
+          // Configuration for clean layout
+          const branchOffsetY = 50; // Distance from decision box to branch point
+          const branchY = dc.y + decisionNode.height / 2 + branchOffsetY;
+          const outcomeSpacing = 160; // Equal spacing between outcomes
+          const outcomeY = branchY + 90; // Vertical distance from branch to outcomes
+          const circleR = 20;
+          
           const outcomes = [
-            { label: 'ALLOW', color: '#22c55e', x: dc.x - 140, icon: '✓' },
-            { label: 'DENY', color: '#ef4444', x: dc.x, icon: '✗' },
-            { label: 'STEP-UP', color: '#eab308', x: dc.x + 140, icon: '!' },
+            { label: 'ALLOW', color: '#22c55e', offsetX: -outcomeSpacing },
+            { label: 'DENY', color: '#ef4444', offsetX: 0 },
+            { label: 'STEP-UP', color: '#eab308', offsetX: outcomeSpacing },
           ];
-          const outputY = dc.y + decisionNode.height / 2 + 60; // 60px below decision box
-          return outcomes.map((o, i) => (
+
+          return (
             <motion.g
-              key={`outcome-${i}`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.0 + i * 0.15, duration: 0.5 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.0, duration: 0.6 }}
             >
+              {/* Vertical trunk from decision box to branch point */}
               <path
-                d={`M ${dc.x} ${dc.y + decisionNode.height / 2} Q ${dc.x} ${(dc.y + decisionNode.height / 2 + outputY + 8) / 2} ${o.x} ${outputY + 8}`}
-                stroke={o.color}
-                strokeWidth={5}
-                strokeDasharray="14 8"
+                d={`M ${dc.x} ${dc.y + decisionNode.height / 2} L ${dc.x} ${branchY}`}
+                stroke="#a855f7"
+                strokeWidth={4}
+                strokeDasharray="12 6"
                 strokeLinecap="round"
-                opacity="1"
                 fill="none"
-                filter={`drop-shadow(0 0 6px ${o.color})`}
+                opacity="0.9"
+                filter="drop-shadow(0 0 8px #a855f7)"
               >
                 <animate
                   attributeName="stroke-dashoffset"
-                  from="44"
+                  from="36"
                   to="0"
                   dur="0.8s"
                   repeatCount="indefinite"
                 />
               </path>
-              <polygon
-                points={`${o.x - 10},${outputY + 8 - 14} ${o.x + 10},${outputY + 8 - 14} ${o.x},${outputY + 8}`}
-                fill={o.color}
-                opacity="1"
-                filter={`drop-shadow(0 0 8px ${o.color})`}
+
+              {/* Branch point indicator */}
+              <circle
+                cx={dc.x}
+                cy={branchY}
+                r={6}
+                fill="#a855f7"
+                opacity="0.9"
+                filter="drop-shadow(0 0 8px #a855f7)"
               >
                 <animate
-                  attributeName="opacity"
-                  values="0.8;1;0.8"
-                  dur="0.8s"
+                  attributeName="r"
+                  values="6;9;6"
+                  dur="1.5s"
                   repeatCount="indefinite"
                 />
-              </polygon>
-              <circle cx={o.x} cy={outputY + 8} r={18} fill={o.color} opacity="0.25" />
-              <text
-                x={o.x}
-                y={outputY + 12}
-                textAnchor="middle"
-                fill={o.color}
-                fontSize="12"
-                fontWeight="700"
-                fontFamily="monospace"
+                <animate
+                  attributeName="opacity"
+                  values="0.7;1;0.7"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+
+              {/* Horizontal branch bar */}
+              <path
+                d={`M ${dc.x - outcomeSpacing} ${branchY} L ${dc.x + outcomeSpacing} ${branchY}`}
+                stroke="#a855f7"
+                strokeWidth={3}
+                strokeDasharray="8 4"
+                strokeLinecap="round"
+                fill="none"
+                opacity="0.6"
+                filter="drop-shadow(0 0 4px #a855f7)"
               >
-                {o.label}
-              </text>
+                <animate
+                  attributeName="stroke-dashoffset"
+                  from="24"
+                  to="0"
+                  dur="1s"
+                  repeatCount="indefinite"
+                />
+              </path>
+
+              {outcomes.map((o, i) => {
+                const ox = dc.x + o.offsetX;
+                const curveDepth = 35; // Control point depth for smooth curves
+                
+                // Smooth Bézier curve: vertical down from branch, then curve to outcome
+                const pathD = `
+                  M ${ox} ${branchY}
+                  Q ${ox} ${branchY + curveDepth} ${ox} ${branchY + curveDepth * 2}
+                  L ${ox} ${outcomeY - circleR - 10}
+                `.trim();
+
+                return (
+                  <motion.g key={`outcome-${i}`}>
+                    {/* Curved arrow path */}
+                    <path
+                      d={pathD}
+                      stroke={o.color}
+                      strokeWidth={4}
+                      strokeDasharray="12 6"
+                      strokeLinecap="round"
+                      fill="none"
+                      opacity="1"
+                      filter={`drop-shadow(0 0 6px ${o.color})`}
+                    >
+                      <animate
+                        attributeName="stroke-dashoffset"
+                        from="36"
+                        to="0"
+                        dur="0.8s"
+                        repeatCount="indefinite"
+                      />
+                    </path>
+
+                    {/* Arrowhead at end of curve */}
+                    <polygon
+                      points={`${ox - 9},${outcomeY - circleR - 14} ${ox + 9},${outcomeY - circleR - 14} ${ox},${outcomeY - circleR - 4}`}
+                      fill={o.color}
+                      opacity="1"
+                      filter={`drop-shadow(0 0 8px ${o.color})`}
+                    >
+                      <animate
+                        attributeName="opacity"
+                        values="0.8;1;0.8"
+                        dur="0.8s"
+                        repeatCount="indefinite"
+                      />
+                    </polygon>
+
+                    {/* Outcome circle */}
+                    <circle
+                      cx={ox}
+                      cy={outcomeY}
+                      r={circleR}
+                      fill={o.color}
+                      opacity="0.2"
+                      filter={`drop-shadow(0 0 12px ${o.color})`}
+                    >
+                      <animate
+                        attributeName="opacity"
+                        values="0.15;0.3;0.15"
+                        dur="2s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                    <circle
+                      cx={ox}
+                      cy={outcomeY}
+                      r={circleR - 2}
+                      fill="none"
+                      stroke={o.color}
+                      strokeWidth={2}
+                      opacity="0.6"
+                    />
+
+                    {/* Label below circle */}
+                    <text
+                      x={ox}
+                      y={outcomeY + circleR + 20}
+                      textAnchor="middle"
+                      fill={o.color}
+                      fontSize="11"
+                      fontWeight="700"
+                      fontFamily="monospace"
+                      letterSpacing="0.5px"
+                    >
+                      {o.label}
+                    </text>
+                  </motion.g>
+                );
+              })}
             </motion.g>
-          ));
+          );
         })()}
 
         {/* Render nodes */}
