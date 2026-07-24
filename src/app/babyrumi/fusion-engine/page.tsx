@@ -161,7 +161,7 @@ function FusionNetwork() {
 
   const getNodeCenter = (node: NetworkNode) => ({
     x: totalWidth / 2 + (node.col - 1) * 200,
-    y: 60 + node.row * 90 + node.height / 2 + (node.row === 0 ? -25 : 0),
+    y: 60 + node.row * 110 + node.height / 2 + (node.row === 0 ? -35 : 0),
   });
 
   useEffect(() => {
