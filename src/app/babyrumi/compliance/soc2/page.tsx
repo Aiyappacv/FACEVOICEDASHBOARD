@@ -8,6 +8,7 @@ import { ProgressRing } from '@/components/ui/progress-ring';
 import { RealtimeChart } from '@/components/charts/realtime-chart';
 import { BiometricBarChart } from '@/components/charts/bar-chart';
 import { cn } from '@/lib/utils';
+import { ComplianceStatus } from '@/types';
 import {
   BadgeCheck,
   FileCheck,
@@ -22,7 +23,16 @@ import {
   Eye,
 } from 'lucide-react';
 
-const REQUIREMENTS = [
+interface Requirement {
+  id: string;
+  title: string;
+  criteria: string;
+  status: ComplianceStatus;
+  score: number;
+  category: string;
+}
+
+const REQUIREMENTS: readonly Requirement[] = [
   { id: 'CC6.1', title: 'Logical Access Controls', criteria: 'CC6.1', status: 'compliant', score: 99, category: 'Access Control' },
   { id: 'CC6.2', title: 'Credential Management', criteria: 'CC6.2', status: 'compliant', score: 98, category: 'Access Control' },
   { id: 'CC6.3', title: 'Network Segmentation', criteria: 'CC6.3', status: 'compliant', score: 97, category: 'Network' },
@@ -48,6 +58,8 @@ const STATUS_COLORS = {
   partial: { badge: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30', dot: 'bg-yellow-500', bar: 'bg-yellow-500' },
   'non-compliant': { badge: 'bg-red-500/20 text-red-400 border-red-500/30', dot: 'bg-red-500', bar: 'bg-red-500' },
 };
+
+const FILTER_OPTIONS = ['all', 'compliant', 'partial', 'non-compliant'] as const;
 
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.1 } } };
 const itemVariants = { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 260, damping: 24 } } };

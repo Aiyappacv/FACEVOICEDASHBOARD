@@ -8,6 +8,7 @@ import { ProgressRing } from '@/components/ui/progress-ring';
 import { RealtimeChart } from '@/components/charts/realtime-chart';
 import { BiometricBarChart } from '@/components/charts/bar-chart';
 import { cn } from '@/lib/utils';
+import { ComplianceStatus } from '@/types';
 import {
   Building2,
   FileCheck,
@@ -21,7 +22,16 @@ import {
   Stethoscope,
 } from 'lucide-react';
 
-const REQUIREMENTS = [
+interface Requirement {
+  id: string;
+  title: string;
+  section: string;
+  status: ComplianceStatus;
+  score: number;
+  category: string;
+}
+
+const REQUIREMENTS: readonly Requirement[] = [
   { id: '164.308', title: 'Administrative Safeguards', section: '§164.308', status: 'compliant', score: 98, category: 'Admin' },
   { id: '164.308a1', title: 'Security Officer Assignment', section: '§164.308(a)(1)', status: 'compliant', score: 100, category: 'Admin' },
   { id: '164.308a2', title: 'Workforce Training', section: '§164.308(a)(2)', status: 'compliant', score: 95, category: 'Admin' },
@@ -47,6 +57,8 @@ const STATUS_COLORS = {
   'non-compliant': { badge: 'bg-red-500/20 text-red-400 border-red-500/30', dot: 'bg-red-500', bar: 'bg-red-500' },
 };
 
+const FILTER_OPTIONS = ['all', 'compliant', 'partial', 'non-compliant'] as const;
+
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.1 } } };
 const itemVariants = { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 260, damping: 24 } } };
 
@@ -54,7 +66,7 @@ export const NON_COMPLIANT_STATUS = 'non-compliant' as const;
 
 export default function HIPAAPage() {
   const [mounted, setMounted] = useState(false);
-  const [filter, setFilter] = useState<'all' | 'compliant' | 'partial' | (typeof NON_COMPLIANT_STATUS)>('all');
+  const [filter, setFilter] = useState<'all' | 'compliant' | 'partial' | 'non-compliant'>('all');
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -93,7 +105,7 @@ export default function HIPAAPage() {
       </div>
 
       <div className="flex flex-wrap gap-2 mb-4">
-        {(['all', 'compliant', 'partial', 'non-compliant'] as const).map((f) => (
+        {FILTER_OPTIONS.map((f) => (
           <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', filter === f ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-white/5 text-white/50 hover:bg-white/10')}>{f === 'non-compliant' ? 'Non-Compliant' : f.charAt(0).toUpperCase() + f.slice(1)}</button>
         ))}
       </div>

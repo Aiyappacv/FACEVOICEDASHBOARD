@@ -227,6 +227,16 @@ export interface ActivityEvent {
 
 // ─── Compliance ───────────────────────────────────
 
+export type ComplianceStatus = 'compliant' | 'partial' | 'non-compliant';
+
+export interface ComplianceRequirement {
+  id: string;
+  title: string;
+  status: ComplianceStatus;
+  score: number;
+  category: string;
+}
+
 export interface ComplianceFramework {
   id: string;
   name: string;

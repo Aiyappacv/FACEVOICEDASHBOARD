@@ -8,6 +8,7 @@ import { ProgressRing } from '@/components/ui/progress-ring';
 import { RealtimeChart } from '@/components/charts/realtime-chart';
 import { BiometricBarChart } from '@/components/charts/bar-chart';
 import { cn } from '@/lib/utils';
+import { ComplianceStatus } from '@/types';
 import {
   Shield,
   FileCheck,
@@ -21,7 +22,16 @@ import {
   Gavel,
 } from 'lucide-react';
 
-const REQUIREMENTS = [
+interface Requirement {
+  id: string;
+  title: string;
+  article: string;
+  status: ComplianceStatus;
+  score: number;
+  category: string;
+}
+
+const REQUIREMENTS: readonly Requirement[] = [
   { id: 'art-5', title: 'Data Processing Principles', article: 'Art. 5', status: 'compliant', score: 100, category: 'Lawfulness' },
   { id: 'art-6', title: 'Lawfulness of Processing', article: 'Art. 6', status: 'compliant', score: 98, category: 'Consent' },
   { id: 'art-7', title: 'Conditions for Consent', article: 'Art. 7', status: 'compliant', score: 95, category: 'Consent' },
@@ -46,6 +56,8 @@ const STATUS_COLORS = {
   partial: { badge: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30', dot: 'bg-yellow-500', bar: 'bg-yellow-500' },
   'non-compliant': { badge: 'bg-red-500/20 text-red-400 border-red-500/30', dot: 'bg-red-500', bar: 'bg-red-500' },
 };
+
+const FILTER_OPTIONS = ['all', 'compliant', 'partial', 'non-compliant'] as const;
 
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.1 } } };
 const itemVariants = { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 260, damping: 24 } } };
@@ -91,7 +103,7 @@ export default function GDPRPage() {
       </div>
 
       <div className="flex flex-wrap gap-2 mb-4">
-        {(['all', 'compliant', 'partial', 'non-compliant'] as const).map((f) => (
+        {FILTER_OPTIONS.map((f) => (
           <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors', filter === f ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-white/5 text-white/50 hover:bg-white/10')}>{f === 'non-compliant' ? 'Non-Compliant' : f.charAt(0).toUpperCase() + f.slice(1)}</button>
         ))}
       </div>
