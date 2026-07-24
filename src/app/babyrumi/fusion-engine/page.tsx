@@ -157,7 +157,7 @@ function FusionNetwork() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
   const totalWidth = 700;
-  const totalHeight = 950;
+  const totalHeight = 1100;
   const colSpacing = 200;
   const rowSpacing = 130;
   const startY = 60;
@@ -195,7 +195,7 @@ function FusionNetwork() {
       <svg
         viewBox={`0 0 ${totalWidth} ${totalHeight}`}
         className="relative w-full"
-        style={{ maxHeight: '950px' }}
+        style={{ maxHeight: '1050px' }}
         preserveAspectRatio="xMidYMin meet"
       >
         <defs>
