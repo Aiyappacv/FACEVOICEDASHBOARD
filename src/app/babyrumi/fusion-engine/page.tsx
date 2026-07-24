@@ -537,7 +537,7 @@ export default function FusionEnginePage() {
 
   return (
     <div className="min-h-screen bg-[#06060f] p-4 md:p-8">
-      <div className="mx-auto max-w-[1400px] space-y-8">
+      <div className="mx-auto max-w-[1800px] space-y-8">
         {/* ── Header ── */}
         <motion.header
           initial={{ opacity: 0, y: -20 }}
