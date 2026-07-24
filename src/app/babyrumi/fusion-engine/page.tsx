@@ -202,12 +202,12 @@ function FusionNetwork() {
   const [activeStage, setActiveStage] = useState(0);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
-  const totalWidth = 700;
-  const totalHeight = 680;
+const totalWidth = 700;
+  const totalHeight = 720;
 
   const getNodeCenter = (node: NetworkNode) => ({
     x: totalWidth / 2 + (node.col - 1) * 200,
-    y: 80 + node.row * 90 + node.height / 2,
+    y: 60 + node.row * 90 + node.height / 2,
   });
 
   useEffect(() => {
@@ -218,7 +218,10 @@ function FusionNetwork() {
   }, []);
 
   return (
-    <div className="relative w-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02]">
+    <div
+      className="relative w-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02]"
+      style={{ maxHeight: '680px' }}
+    >
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -231,7 +234,7 @@ function FusionNetwork() {
       <svg
         viewBox={`0 0 ${totalWidth} ${totalHeight}`}
         className="relative w-full"
-        style={{ maxHeight: '520px' }}
+        style={{ maxHeight: '680px' }}
       >
         <defs>
           <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
