@@ -354,7 +354,7 @@ function FusionNetwork() {
             { label: 'DENY', color: '#ef4444', x: dc.x, icon: '✗' },
             { label: 'STEP-UP', color: '#eab308', x: dc.x + 140, icon: '!' },
           ];
-          const outputY = totalHeight - 80;
+          const outputY = dc.y + decisionNode.height / 2 + 60; // 60px below decision box
           return outcomes.map((o, i) => (
             <motion.g
               key={`outcome-${i}`}
@@ -386,7 +386,7 @@ function FusionNetwork() {
                 y={outputY + 12}
                 textAnchor="middle"
                 fill={o.color}
-                fontSize="10"
+                fontSize="12"
                 fontWeight="700"
                 fontFamily="monospace"
               >
