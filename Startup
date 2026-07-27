@@ -1,0 +1,127 @@
+===============================================
+  SPECTRA FACEVOICE DASHBOARD - STARTUP GUIDE
+===============================================
+
+PROJECT OVERVIEW
+----------------
+This is a Next.js 16 frontend dashboard application called "SpectraFaceVoice" 
+built with React 19, TypeScript, Tailwind CSS v4, and various UI libraries.
+
+TECHNOLOGY STACK
+----------------
+- Framework: Next.js 16.2.11
+- Language: TypeScript 5.x
+- UI Library: React 19.2.4
+- Styling: Tailwind CSS v4 with PostCSS
+- State Management: Zustand 5.x
+- Charts: Recharts 2.x
+- Animations: Framer Motion 11.x
+- Icons: Lucide React
+- UI Components: Radix UI primitives
+- Utilities: date-fns, class-variance-authority, clsx, tailwind-merge
+
+PREREQUISITES
+-------------
+1. Node.js 18.17 or later (recommended: LTS version)
+2. npm (comes with Node.js) or yarn/pnpm
+3. Git
+
+SETUP INSTRUCTIONS
+------------------
+
+Step 1: Clone/Access the Project
+   Navigate to the project directory:
+   > cd F:\facevoicedashboard
+
+Step 2: Install Dependencies
+   Run the following command to install all required packages:
+   > npm install
+   
+   This will install all dependencies listed in package.json including:
+   - Core: next, react, react-dom
+   - UI: radix-ui components, lucide-react, framer-motion
+   - Charts: recharts
+   - State: zustand
+   - Styling: tailwindcss, postcss, tailwind-merge, clsx, class-variance-authority
+
+   Note: node_modules/ is already present in the directory. If not, 
+   run 'npm install' as shown above.
+
+Step 3: Environment Configuration (if needed)
+   This project uses .env files (gitignored). Create a .env.local file 
+   in the root directory if any environment variables are required:
+   > echo # Add your env variables here > .env.local
+
+Step 4: Run the Development Server
+   Start the Next.js development server:
+   > npm run dev
+   
+   The application will be available at:
+   http://localhost:3000
+
+Step 5: Build for Production (optional)
+   To create a production build:
+   > npm run build
+   
+   Then start the production server:
+   > npm start
+
+AVAILABLE SCRIPTS
+-----------------
+  npm run dev       - Start development server (with hot reload)
+  npm run build     - Create production build
+  npm run start     - Start production server
+  npm run lint      - Run ESLint for code quality checks
+  npm run typecheck - Run TypeScript compiler (tsc --noEmit) for type checking
+
+PROJECT STRUCTURE
+-----------------
+  src/
+  ├── app/          # Next.js App Router pages and layouts
+  ├── components/   # Reusable UI components
+  ├── data/         # Static data and mock data
+  ├── hooks/        # Custom React hooks
+  ├── lib/          # Utility functions and helpers
+  ├── store/        # Zustand state management stores
+  └── types/        # TypeScript type definitions
+  
+  public/           # Static assets (images, icons, etc.)
+  
+  Configuration Files:
+  ├── next.config.ts        # Next.js configuration
+  ├── tsconfig.json         # TypeScript configuration
+  ├── postcss.config.mjs    # PostCSS configuration (for Tailwind)
+  ├── eslint.config.mjs     # ESLint configuration
+  └── tailwind.config.*     # Tailwind CSS configuration (if present)
+
+TROUBLESHOOTING
+---------------
+1. If 'npm install' fails:
+   - Delete node_modules/ and package-lock.json, then run 'npm install' again
+   - Ensure Node.js version is 18.17 or later: check with 'node --version'
+
+2. If the dev server won't start:
+   - Ensure port 3000 is not already in use
+   - Try: npm run dev -- -p 3001 (uses port 3001 instead)
+
+3. If you encounter TypeScript errors:
+   - Run: npm run typecheck
+   - Fix the reported issues
+
+4. If you encounter ESLint errors:
+   - Run: npm run lint
+   - Auto-fix with: npm run lint -- --fix
+
+5. Clearing cache:
+   - Remove .next/ directory: Remove-Item -Recurse -Force .next
+   - Then run 'npm run dev' again
+
+IDE RECOMMENDATIONS
+-------------------
+- Visual Studio Code with these extensions:
+  - ESLint
+  - Tailwind CSS IntelliSense
+  - TypeScript and JavaScript Language Features
+  - Prettier (for formatting)
+
+===============================================
